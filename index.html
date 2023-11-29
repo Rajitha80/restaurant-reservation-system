@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <title>Reservation System Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, red, orange, yellow, green, blue, indigo, violet);
+            background-size: 100% 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #333;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 10px;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        /* Dashboard content styles */
+        .container {
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            margin: 20px;
+        }
+
+        .welcome {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .reservation-form {
+            margin-bottom: 20px;
+        }
+
+        .reservation-form label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .reservation-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        .reservation-form button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* New styles for featured dishes */
+        .featured-dishes {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .dish-item {
+            width: calc(33.33% - 20px);
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .dish-cost {
+            margin-top: 10px;
+        }
+
+        .add-to-cart-button {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+
+        /* New styles for shopping cart */
+        .shopping-cart {
+            position: fixed;
+            top: 0;
+            right: 0;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 20px;
+        }
+
+        .paypal-button-container {
+            margin-top: 20px;
+        }
+
+        .paypal-logo {
+            width: 100px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        /* Dashboard content styles */
+        .container {
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            margin: 20px;
+        }
+
+        .welcome {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .reservation-form {
+            margin-bottom: 20px;
+        }
+
+        .reservation-form label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .reservation-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        .reservation-form button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* New styles for featured dishes */
+        .featured-dishes {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .dish-item {
+            width: calc(33.33% - 20px);
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .dish-cost {
+            margin-top: 10px;
+        }
+
+        .add-to-cart-button {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+
+        /* New styles for shopping cart */
+        .shopping-cart {
+            position: fixed;
+            top: 50px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        #cartItems {
+            list-style: none;
+            padding: 0;
+        }
+
+        #cartItems li {
+            margin-bottom: 10px;
+        }
+
+        .cart-total {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        /* Styles for PayPal button */
+        .paypal-button-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .paypal-logo {
+            width: 100px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        /* Styles for checkout button */
+        .checkout-button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+        /* Styles for Chat Box */
+#chat-box {
+    position: fixed;
+    bottom: 20px;
+    right: 10px;
+    width: 300px;
+    background-color: white;
+    border: 1px solid #ee1b1b;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    
+}
+
+#chat-box input[type="text"] {
+    width: 70%;
+    padding: 5px;
+    margin-right: 5px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+#chat-box button {
+    width: 25%;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+        
+
+        /* Adjust the height of the carousel images */
+        .carousel-inner img {
+            max-height: 500px; /* Adjust the height as needed */
+            max-width: 1500px;
+            margin: 0 auto; /* Center the images horizontally */
+            display: block;
+        }
+
+        /* Style for manual navigation buttons */
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 5%;
+            opacity: 0.5;
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            background-color: #007bff;
+        }
+        .payment-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+
+        /* Footer remains the same */
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Reservation System Dashboard</h1>
+    </header>
+
+    <nav>
+        <ul>
+            
+            <li><a href="index.html">Dashboard</a></li>
+            
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="welcome">
+            <p>Welcome, [Username]!</p>
+        </div>
+        <!-- Bootstrap Carousel with Smaller Slides and Manual Navigation Buttons -->
+    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="images/image1.png" class="d-block w-70" alt="Slide 1">
+            </div>
+            <div class="carousel-item">
+                <img src="images/image2.jpg" class="d-block w-70" alt="Slide 2">
+            </div>
+            <div class="carousel-item">
+                <img src="images/image3.png" class="d-block w-70" alt="Slide 3">
+            </div>
+        </div>
+        <!-- Manual navigation buttons -->
+        <a class="carousel-control-prev" href="#carouselExampleSlidesOnly" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleSlidesOnly" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+
+
+        <div class="reservation-form">
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+
+            <label for="time">Time:</label>
+            <input type="time" id="time" name="time" required>
+
+            <label for="guests">Number of Guests:</label>
+            <input type="number" id="guests" name="guests" min="1" required>
+
+            <button id="reserveButton" onclick="reserveTable()">Reserve Table</button>
+        </div>
+
+      
+
+ <!-- Featured Dishes Section -->
+<div class="featured-dishes">
+    <h1 style="text-align: center; width: 100%;">Featured Dishes</h1>
+
+    <!-- Dish 1 -->
+    <div class="dish-item">
+        <img src="images/dish 1.jpg" alt="Dish 1 Image" style="width: 50%; border-radius: 5px;">
+        <h3>Spaghetti Carbonara</h3>
+        <p>Classic Italian pasta dish with eggs, cheese, pancetta, and black pepper.</p>
+        <span class="dish-cost">$12.99</span>
+        <button class="add-to-cart-button" onclick="addToCart('Spaghetti Carbonara', 12.99)">Add to Cart</button>
+    </div>
+
+    <!-- Dish 2 -->
+    <div class="dish-item">
+        <img src="images/dish 2.jpg" alt="Dish 2 Image" style="width: 30%; border-radius: 5px;">
+        <h3>Chicken Alfredo</h3>
+        <p>Creamy pasta with grilled chicken, garlic, and parmesan cheese.</p>
+        <span class="dish-cost">$15.99</span>
+        <button class="add-to-cart-button" onclick="addToCart('Chicken Alfredo', 15.99)">Add to Cart</button>
+    </div>
+
+    <!-- Dish 3 -->
+    <div class="dish-item">
+        <img src="images/dish 3.jpg" alt="Dish 3 Image" style="width: 50%; border-radius: 5px;">
+        <h3>Margherita Pizza</h3>
+        <p>Traditional Italian pizza with tomato, mozzarella, and basil.</p>
+        <span class="dish-cost">$10.99</span>
+        <button class="add-to-cart-button" onclick="addToCart('Margherita Pizza', 10.99)">Add to Cart</button>
+    </div>
+
+    <!-- Dish 4 -->
+    <div class="dish-item">
+        <img src="images/dish 4.jpg" alt="Dish 4 Image" style="width: 50%; border-radius: 5px;">
+        <h3>Beef Bolognese</h3>
+        <p>Slow-cooked beef sauce served over your choice of pasta.</p>
+        <span class="dish-cost">$14.99</span>
+        <button class="add-to-cart-button" onclick="addToCart('Beef Bolognese', 14.99)">Add to Cart</button>
+    </div>
+
+    <!-- Dish 5 -->
+    <div class="dish-item">
+    <img src="images/dish 5.jpg" alt="Dish 5 Image" style="width: 30%; border-radius: 5px;">
+        <h3>Shrimp Scampi</h3>
+        <p>Garlicky shrimp served with linguine pasta and a white wine sauce.</p>
+        <span class="dish-cost">$18.99</span>
+        <button class="add-to-cart-button" onclick="addToCart('Shrimp Scampi', 18.99)">Add to Cart</button>
+    </div>
+
+    <!-- Dish 6 -->
+    <div class="dish-item">
+        <img src="images/dish 6.jpg" alt="Dish 6 Image" style="width: 50%; border-radius: 5px;">
+        <h3>Vegetarian Sushi Roll</h3>
+        <p>Fresh vegetables and avocado rolled in sushi rice and seaweed.</p>
+        <span class="dish-cost">$9.99</span>
+        <button class="add-to-cart-button" onclick="addToCart('Vegetarian Sushi Roll', 9.99)">Add to Cart</button>
+    </div>
+
+    <!-- Dish 7 -->
+    <div class="dish-item">
+        <img src="images/dish 7.jpg" alt="Dish 7 Image" style="width: 30%; border-radius: 5px;">
+        <h3>Chicken Teriyaki Bowl</h3>
+        <p>Grilled chicken glazed with teriyaki sauce served over rice and vegetables.</p>
+        <span class="dish-cost">$13.99</span>
+        <button class="add-to-cart-button" onclick="addToCart('Chicken Teriyaki Bowl', 13.99)">Add to Cart</button>
+    </div>
+
+    <!-- Dish 8 -->
+    <div class="dish-item">
+        <img src="images/dish 8.jpg" alt="Dish 8 Image" style="width: 30%; border-radius: 5px;">
+        <h3>Caprese Salad</h3>
+        <p>Fresh tomatoes, mozzarella, and basil drizzled with balsamic glaze.</p>
+        <span class="dish-cost">$7.99</span>
+        <button class="add-to-cart-button" onclick="addToCart('Caprese Salad', 7.99)">Add to Cart</button>
+    </div>
+
+    <!-- Dish 9 -->
+    <div class="dish-item">
+        <img src="images/dish 9.jpg" alt="Dish 9 Image" style="width: 30%; border-radius: 5px;">
+        <h3>Beef Tacos</h3>
+        <p>Seasoned ground beef, lettuce, and cheese in a crispy taco shell.</p>
+        <span class="dish-cost">$11.99</span>
+        <button class="add-to-cart-button" onclick="addToCart('Beef Tacos', 11.99)">Add to Cart</button>
+    </div>
+
+    <!-- Dish 10 -->
+    <div class="dish-item">
+        <img src="images/dish 10.jpg" alt="Dish 10 Image" style="width: 30%; border-radius: 5px;">
+        <h3>Chicken Caesar Salad</h3>
+        <p>Grilled chicken, romaine lettuce, croutons, and Caesar dressing.</p>
+        <span class="dish-cost">$9.99</span>
+        <button class="add-to-cart-button" onclick="addToCart('Chicken Caesar Salad', 9.99)">Add to Cart</button>
+    </div>
+
+    <!-- Dish 11 -->
+    <div class="dish-item">
+        <img src="images/dish 11.jpg" alt="Dish 11 Image" style="width: 50%; border-radius: 5px;">
+        <h3>Seafood Paella</h3>
+        <p>Spanish dish with saffron-infused rice, shrimp, mussels, and chorizo.</p>
+        <span class="dish-cost">$20.99</span>
+        <button class="add-to-cart-button" onclick="addToCart('Seafood Paella', 20.99)">Add to Cart</button>
+    </div>
+
+    <!-- Dish 12 -->
+    <div class="dish-item">
+        <img src="images/dish 12.jpg" alt="Dish 12 Image" style="width: 30%; border-radius: 5px;">
+        <h3>Vegetable Stir-Fry</h3>
+        <p>Mixed vegetables stir-fried in a savory soy-based sauce.</p>
+        <span class="dish-cost">$12.99</span>
+        <button class="add-to-cart-button" onclick="addToCart('Vegetable Stir-Fry', 12.99)">Add to Cart</button>
+    </div>
+
+    <!-- Dish 13 -->
+    <div class="dish-item">
+        <img src="images/dish 13.jpg" alt="Dish 13 Image" style="width: 50%; border-radius: 5px;">
+        <h3>BBQ Pulled Pork Sandwich</h3>
+        <p>Slow-cooked pulled pork smothered in barbecue sauce on a bun.</p>
+        <span class="dish-cost">$14.99</span>
+        <button class="add-to-cart-button" onclick="addToCart('BBQ Pulled Pork Sandwich', 14.99)">Add to Cart</button>
+    </div>
+
+    <!-- Dish 14 -->
+    <div class="dish-item">
+        <img src="images/dish 14.jpg" alt="Dish 14 Image" style="width: 50%; border-radius: 5px;">
+        <h3>Vegetarian Lasagna</h3>
+        <p>Layers of pasta, ricotta, marinara sauce, and mixed vegetables.</p>
+        <span class="dish-cost">$11.99</span>
+        <button class="add-to-cart-button" onclick="addToCart('Vegetarian Lasagna', 11.99)">Add to Cart</button>
+    </div>
+
+    <!-- Dish 15 -->
+    <div class="dish-item">
+        <img src="images/dish 15.jpg" alt="Dish 15 Image" style="width: 30%; border-radius: 5px;">
+        <h3>Chocolate Lava Cake</h3>
+        <p>Decadent chocolate cake with a gooey molten center, served with ice cream.</p>
+        <span class="dish-cost">$8.99</span>
+        <button class="add-to-cart-button" onclick="addToCart('Chocolate Lava Cake', 8.99)">Add to Cart</button>
+    </div>
+</div>
+
+
+
+            <!-- Repeat this block for each group of three dishes -->
+        </div>
+
+        <!-- Shopping Cart -->
+        <div class="shopping-cart" id="shoppingCart">
+            <h2>Shopping Cart</h2>
+            <ul id="cartItems"></ul>
+            <p class="cart-total">Total Cost: <span id="totalCost">$0.00</span></p>
+
+            <!-- Checkout button -->
+            <button class="checkout-button" onclick="checkout()">Checkout</button>
+
+            <!-- PayPal Button -->
+           <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+            <img src="images/paypal.png" alt="PayPal Logo" style="height: 50px; vertical-align: middle;">
+            <input type="hidden" name="cmd" value="_s-xclick">
+            <input type="hidden" name="hosted_button_id" value="YOUR_BUTTON_ID">
+            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+            <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+        </form>
+        <!-- Visa Payment Button -->
+        <div>
+        <img src="images/visa.png" alt="Visa Logo" style="height: 50px; vertical-align: middle;">
+        <button class="payment-button" onclick="window.location.href='https://www.yourpaymentgateway.com/checkout'">Pay with Visa</button>
+        </div>
+        </div>
+    </div>
+    
+
+    <footer>
+        &copy; 2023 Reservation System. All rights reserved.
+    </footer>
+
+    <!-- Chat Box -->
+    <div id="chat-box">
+        <div id="chat-header">Chat with Us</div>
+        <div id="chat-messages"></div>
+        <input type="text" id="chat-input" placeholder="Type your message here...">
+        <button id="send-button" onclick="sendMessage()">Send</button>
+    </div>
+
+    
+
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID"></script>
+    <script>
+        const reserveButton = document.getElementById('reserveButton');
+        const cartItemsElement = document.getElementById('cartItems');
+        const totalCostElement = document.getElementById('totalCost');
+
+        // Reservation system functions
+        function reserveTable() {
+            // Implement the reservation logic here
+            alert('Table reserved!');
+        }
+
+        // Featured dishes and shopping cart functions
+        function addToCart(dishName, cost) {
+            // Create a new cart item
+            const cartItem = document.createElement('li');
+            cartItem.textContent = `${dishName} - $${cost.toFixed(2)}`;
+            cartItemsElement.appendChild(cartItem);
+
+            // Update the total cost
+            updateTotalCost(cost);
+        }
+
+        function updateTotalCost(cost) {
+            // Calculate and update the total cost
+            const currentTotal = parseFloat(totalCostElement.textContent.substring(1));
+            const newTotal = currentTotal + cost;
+            totalCostElement.textContent = `$${newTotal.toFixed(2)}`;
+        }
+
+        // PayPal button integration
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                // Set up the transaction details
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: totalCostElement.textContent.substring(1) // Remove the '$' sign
+                        }
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                // Capture the funds from the transaction
+                return actions.order.capture().then(function(details) {
+                    // Handle successful transaction
+                    alert('Transaction completed by ' + details.payer.name.given_name);
+                });
+            }
+        }).render('#paypal-button-container');
+
+        // Checkout function
+        function checkout() {
+            // Implement the checkout logic here
+            alert('Checkout initiated!');
+        }
+        function sendMessage() {
+            var input = document.getElementById("chat-input");
+            var message = input.value.trim();
+            if (message !== "") {
+                var chatMessages = document.getElementById("chat-messages");
+                var newMessage = document.createElement("p");
+                newMessage.textContent = "You: " + message;
+                chatMessages.appendChild(newMessage);
+                input.value = ""; // Clear input field
+            }
+        }
+        // Display the chat box for demonstration purposes
+        document.getElementById("chat-box").style.display = "block";
+    </script>
+</body>
+</html>
